@@ -11,19 +11,27 @@ customtkinter.set_default_color_theme("dark-blue")
 class Main(CTk):
     def __init__(self):
         super().__init__()
+
+        self.WIDTH = 1000
+        self.HEIGHT = 580
+
+        self.pos_w_x = 150
+        self.pos_w_y = 50
+
         self.title("Restaurant Order Menu")
-        self.minsize(1000,580)
+        # self.attributes("-alpha",0.1)
+        self.geometry(f"{self.WIDTH}x{self.HEIGHT}+{self.pos_w_x}+{self.pos_w_y}")
         self.resizable(False,False)
         self.configure(bg="#02080d")
         self.iconbitmap("img/icon.ico")
 
-        self.frame_login = CTkFrame(self,width=435,height=310,border_color="#df2d00",border_width=1.5)
+        self.frame_login = CTkFrame(self,width=435,height=310,border_color="#ff2020",border_width=2.5)
 
         self.list_data = []
 
         self.entry_username = CTkEntry(master=self.frame_login,placeholder_text="Enter your username",width=210,height=35,corner_radius=12)
         self.entry_password = CTkEntry(master=self.frame_login,placeholder_text="Enter your password",width=210,height=35,corner_radius=12,show="*")
-        self.login_button = CTkButton(master=self.frame_login,text="Log In",fg_color="#290f0b",text_color="#fff4d6",hover_color="#441912",corner_radius=12,command=self.LogIn)
+        self.login_button = CTkButton(master=self.frame_login,text="Log In",fg_color="#970000",text_color="#fff4d6",hover_color="#db0000",corner_radius=12,command=self.LogIn)
 
         self.frame_login.place(x=285,y=110)
         self.entry_username.place(x=110,y=85)
@@ -37,12 +45,18 @@ class Main(CTk):
         self.login_button.place_forget()
 
     def optionMenu(self , choise):
-        self.x = 245
+        self.x = 265
         self.y = 135
 
+        self.x2 = 300
+        self.y2 = 385
+
         if choise == self.values[0]:
-            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select tipe of the pizza",fg_color="#ed6240")
+            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select tipe of the pizza",fg_color="#ec0000",hover_color="#ff2020")
+            self.button_order = CTkButton(master=self,text="order",text_color="white",fg_color="#a80000",hover_color="#ca0000")
+            self.button_order.place(x=self.x2,y=self.y2)
             self.choose = self.inputDialog.get_input()
+            
             
             self.list_of_image = []
 
@@ -54,9 +68,10 @@ class Main(CTk):
                 self.label.place(x=self.x,y=self.y)
 
         elif(choise == self.values[1]):
-            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select how meat do you want \n to your soup",fg_color="#ed6240")
+            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select how meat do you want \n to your soup",fg_color="#ec0000",hover_color="#ff2020")
+            self.button_orders = CTkButton(master=self,text="order",text_color="white",fg_color="#a80000",hover_color="#ca0000")
+            self.button_orders.place(x=self.x2 + 265,y=self.y2)
             self.choose = self.inputDialog.get_input()
-            # x=375,y=135
             self.list_of_image = []
 
             self.list_of_image.append(self.list_of_foodImg[1])
