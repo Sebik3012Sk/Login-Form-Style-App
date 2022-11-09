@@ -19,13 +19,14 @@ class Main(CTk):
         self.pos_w_y = 50
 
         self.title("Restaurant Order Menu")
-        # self.attributes("-alpha",0.1)
         self.geometry(f"{self.WIDTH}x{self.HEIGHT}+{self.pos_w_x}+{self.pos_w_y}")
         self.resizable(False,False)
         self.configure(bg="#02080d")
+        self.attributes("-alpha",1)
         self.iconbitmap("img/icon.ico")
 
         self.frame_login = CTkFrame(self,width=435,height=310,border_color="#ff2020",border_width=2.5)
+        
 
         self.list_data = []
 
@@ -52,8 +53,8 @@ class Main(CTk):
         self.y2 = 385
 
         if choise == self.values[0]:
-            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select tipe of the pizza",fg_color="#ec0000",hover_color="#ff2020")
-            self.button_order = CTkButton(master=self,text="order",text_color="white",fg_color="#a80000",hover_color="#ca0000")
+            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select tipe of the pizza",fg_color="#ec0000",hover_color="#ff2020",border_color="#ff0f0f")
+            self.button_order = CTkButton(master=self,text="order",image=self.order_image,text_font="Helvetica",text_color="white",fg_color="#a80000",hover_color="#ca0000")
             self.button_order.place(x=self.x2,y=self.y2)
             self.choose = self.inputDialog.get_input()
             
@@ -68,9 +69,9 @@ class Main(CTk):
                 self.label.place(x=self.x,y=self.y)
 
         elif(choise == self.values[1]):
-            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select how meat do you want \n to your soup",fg_color="#ec0000",hover_color="#ff2020")
-            self.button_orders = CTkButton(master=self,text="order",text_color="white",fg_color="#a80000",hover_color="#ca0000")
-            self.button_orders.place(x=self.x2 + 265,y=self.y2)
+            self.inputDialog = CTkInputDialog(master=self,title="Food Menu",text="Select how meat do you want \n to your soup",fg_color="#ec0000",hover_color="#ff2020",border_color="#ff0f0f")
+            self.button_orders = CTkButton(master=self,text="order",image=self.order_image,text_color="white",text_font="Helvetica",fg_color="#a80000",hover_color="#ca0000")
+            self.button_orders.place(x=self.x2 + 268,y=self.y2)
             self.choose = self.inputDialog.get_input()
             self.list_of_image = []
 
@@ -81,6 +82,22 @@ class Main(CTk):
                 self.label = Label(master=root,image=self.item)
                 self.label.place(x=self.x + 255,y=self.y)
 
+    def unLogin(self):
+        self.frame_login.place(x=285,y=110)
+        self.entry_username.place(x=110,y=85)
+        self.entry_password.place(x=110,y=160)
+        self.login_button.place(x=137,y=217)
+
+        self.username_box.place_forget()
+        self.quit_button.place_forget()
+        self.label_heading.place_forget()
+        self.otpion_menu.place_forget()
+
+        try:
+            self.label.place_forget()
+        except:
+            pass
+
 
     def newStuctureWindow(self):
         
@@ -88,14 +105,23 @@ class Main(CTk):
         # loading images
         self.pizza_image = ImageTk.PhotoImage(Image.open("img/pizza.jpeg"))
         self.vegetale_soup = ImageTk.PhotoImage(Image.open("img/Vegetable Soup.jpg"))
+        self.order_image = ImageTk.PhotoImage(Image.open("img/order-icon.png"))
+        self.account_image = ImageTk.PhotoImage(Image.open("img/account-image.png"))
+        self.quit_image = ImageTk.PhotoImage(Image.open("img/quit-image.png"))
 
         self.list_of_foodImg = [self.pizza_image,self.vegetale_soup]
         self.values = ["Pizza","Vegetable Soup","Cheese Cake","Chips and Fish"]
 
-        self.label_heading = CTkLabel(master=self,text="Welcome in Our Restaurant Menu",text_font="Helvetica")
+        self.username_box = CTkButton(master=self,text=self.entry_username_get,fg_color="#ff2020",hover_color="#ff0f0f",image=self.account_image)
+        self.quit_button = CTkButton(master=self,image=self.quit_image,text="",width=25,height=13,corner_radius=15,fg_color="#fd0000",hover_color="#ff0f0f",command=self.unLogin)
+        self.label_heading = CTkLabel(master=self,text=f"Welcome in Our Restaurant Menu {self.entry_username_get}",text_font="Helvetica")
         self.otpion_menu = CTkOptionMenu(master=self,values=self.values,fg_color="#b63111",button_hover_color="#d53a14",dropdown_hover_color="#d53a14",button_color="#b63111",dropdown_color="#b63111",command=self.optionMenu)
+        
 
-        self.label_heading.place(x=375,y=18)
+
+        self.username_box.place(x=35,y=35)
+        self.quit_button.place(x=207,y=31)
+        self.label_heading.place(x=315,y=18)
         self.otpion_menu.place(x=410,y=75)
 
         
@@ -104,9 +130,11 @@ class Main(CTk):
         self.entry_username_get = self.entry_username.get()
         self.entry_password_get = self.entry_password.get()
 
-        self.list_username:str = ["Sebastian Kučera"]
-        self.list_password:int = ["7259"]
+        self.list_username:str = ["Sebastian Kučera","Robert Kučera"]
+        self.list_password:int = ["7259","1964"]
 
+        self.entry_username.delete(0,END)
+        self.entry_password.delete(0,END)
 
         with open("data_list.txt","r+") as file:
             self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.entry_password_get}\n"
@@ -124,6 +152,10 @@ class Main(CTk):
                     self.removeWindowItems()
                     self.newStuctureWindow()
                     break
+                elif(self.list_username[1] == self.entry_username_get and self.list_password[1] == self.entry_password_get):
+                    messagebox.showinfo("Login Form","Your data is valid")
+                    self.removeWindowItems()
+                    self.newStuctureWindow()
                 else:
                     messagebox.showerror("Login Form","Your data is not valid")
                     break
