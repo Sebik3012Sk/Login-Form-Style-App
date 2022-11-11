@@ -3,6 +3,8 @@ from customtkinter import *
 from tkinter import messagebox
 from PIL import Image , ImageTk
 import customtkinter
+import platform as platfm
+
 
 customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("dark-blue")
@@ -30,14 +32,30 @@ class Main(CTk):
 
         self.list_data = []
 
-        self.entry_username = CTkEntry(master=self.frame_login,placeholder_text="Enter your username",width=210,height=35,corner_radius=12)
-        self.entry_password = CTkEntry(master=self.frame_login,placeholder_text="Enter your password",width=210,height=35,corner_radius=12,show="*")
+        self.entry_username = CTkEntry(master=self.frame_login,placeholder_text="Enter your username",width=210,height=35,corner_radius=12,justify="center")
+        self.entry_password = CTkEntry(master=self.frame_login,placeholder_text="Enter your password",width=210,height=35,corner_radius=12,show="*",justify="center")
         self.login_button = CTkButton(master=self.frame_login,text="Log In",fg_color="#970000",text_color="#fff4d6",hover_color="#db0000",corner_radius=12,command=self.LogIn)
 
         self.frame_login.place(x=285,y=110)
         self.entry_username.place(x=110,y=85)
         self.entry_password.place(x=110,y=160)
         self.login_button.place(x=137,y=217)
+
+    def update(self):
+        self.aboutComputerData()
+
+	 
+
+    def aboutComputerData(self):
+
+        self.list = [platfm.node(),platfm.system() + " " + platfm.release()]
+
+        self.file = "platform.txt"
+
+        with open(self.file,"w") as file:
+            for self.item in self.list:
+                file.write(self.item + "\n")
+ 
 
     def removeWindowItems(self):
         self.frame_login.place_forget()
@@ -57,7 +75,6 @@ class Main(CTk):
             self.button_order = CTkButton(master=self,text="order",image=self.order_image,text_font="Helvetica",text_color="white",fg_color="#a80000",hover_color="#ca0000")
             self.button_order.place(x=self.x2,y=self.y2)
             self.choose = self.inputDialog.get_input()
-            
             
             self.list_of_image = []
 
@@ -79,8 +96,8 @@ class Main(CTk):
 
 
             for self.item in self.list_of_image:
-                self.label = Label(master=root,image=self.item)
-                self.label.place(x=self.x + 255,y=self.y)
+                self.img_label = Label(master=root,image=self.item)
+                self.img_label.place(x=self.x + 255,y=self.y)
 
     def unLogin(self):
         self.frame_login.place(x=285,y=110)
@@ -95,9 +112,12 @@ class Main(CTk):
 
         try:
             self.label.place_forget()
+            self.img_label.place_forget()
+            self.button_order.place_forget()
+            self.button_orders.place_forget()
         except:
             pass
-
+            
 
     def newStuctureWindow(self):
         
@@ -116,7 +136,7 @@ class Main(CTk):
         self.quit_button = CTkButton(master=self,image=self.quit_image,text="",width=25,height=13,corner_radius=15,fg_color="#fd0000",hover_color="#ff0f0f",command=self.unLogin)
         self.label_heading = CTkLabel(master=self,text=f"Welcome in Our Restaurant Menu {self.entry_username_get}",text_font="Helvetica")
         self.otpion_menu = CTkOptionMenu(master=self,values=self.values,fg_color="#b63111",button_hover_color="#d53a14",dropdown_hover_color="#d53a14",button_color="#b63111",dropdown_color="#b63111",command=self.optionMenu)
-        
+
 
 
         self.username_box.place(x=35,y=35)
@@ -125,7 +145,6 @@ class Main(CTk):
         self.otpion_menu.place(x=410,y=75)
 
         
-
     def LogIn(self):
         self.entry_username_get = self.entry_username.get()
         self.entry_password_get = self.entry_password.get()
@@ -134,10 +153,21 @@ class Main(CTk):
         self.list_password:int = ["7259","1964"]
 
         self.entry_username.delete(0,END)
+
         self.entry_password.delete(0,END)
 
+        self.save_password = []
+
+        self.save_password.append(self.entry_password_get)
+
+        self.i = 0
+
+        for self.item in self.save_password:
+            for self.letter_item in self.item:
+                print(ord(self.letter_item))
+
         with open("data_list.txt","r+") as file:
-            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.entry_password_get}\n"
+            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.letter_item}\n"
 
             self.list_data.append(self.r_data)
 
@@ -161,4 +191,5 @@ class Main(CTk):
                     break
                     
 root = Main()
+root.update()
 root.mainloop()
