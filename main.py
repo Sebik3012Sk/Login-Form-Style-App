@@ -2,12 +2,14 @@ from tkinter import *
 from customtkinter import *
 from tkinter import messagebox
 from PIL import Image , ImageTk
-import customtkinter
+import customtkinter as customtkpro
 import platform as platfm
+import random as rd
+import math as mth
 
 
-customtkinter.set_appearance_mode("dark")
-customtkinter.set_default_color_theme("dark-blue")
+customtkpro.set_appearance_mode("dark")
+customtkpro.set_default_color_theme("dark-blue")
 
 
 class Main(CTk):
@@ -26,6 +28,9 @@ class Main(CTk):
         self.configure(bg="#02080d")
         self.attributes("-alpha",1)
         self.iconbitmap("img/icon.ico")
+        
+
+        # self.overrideredirect(True)
 
         self.frame_login = CTkFrame(self,width=435,height=310,border_color="#ff2020",border_width=2.5)
         
@@ -138,7 +143,6 @@ class Main(CTk):
         self.otpion_menu = CTkOptionMenu(master=self,values=self.values,fg_color="#b63111",button_hover_color="#d53a14",dropdown_hover_color="#d53a14",button_color="#b63111",dropdown_color="#b63111",command=self.optionMenu)
 
 
-
         self.username_box.place(x=35,y=35)
         self.quit_button.place(x=207,y=31)
         self.label_heading.place(x=315,y=18)
@@ -164,10 +168,17 @@ class Main(CTk):
 
         for self.item in self.save_password:
             for self.letter_item in self.item:
-                print(ord(self.letter_item))
+                self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * int(rd.randint(0,6)) - 5 + round(pow(2,4))
+                print("START ENCODE")
+                print(self.data_encode_h)
+                print("STOP ENCODE")
+                print("START DECODE")
+                print(chr(self.data_encode_h))
+                print("STOP DECODE")
+                
 
         with open("data_list.txt","r+") as file:
-            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.letter_item}\n"
+            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.data_encode_h}\n"
 
             self.list_data.append(self.r_data)
 
