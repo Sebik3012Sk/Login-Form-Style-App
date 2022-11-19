@@ -7,6 +7,7 @@ import platform as platfm
 import random as rd
 import math as mth
 import tkinter as tk
+import socket
 
 
 customtkpro.set_appearance_mode("dark")
