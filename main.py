@@ -6,6 +6,7 @@ import customtkinter as customtkpro
 import platform as platfm
 import random as rd
 import math as mth
+import tkinter as tk
 
 
 customtkpro.set_appearance_mode("dark")
@@ -168,14 +169,25 @@ class Main(CTk):
 
         for self.item in self.save_password:
             for self.letter_item in self.item:
-                self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * int(rd.randint(0,6)) - 5 + round(pow(2,4))
-                print("START ENCODE")
-                print(self.data_encode_h)
-                print("STOP ENCODE")
-                print("START DECODE")
-                print(chr(self.data_encode_h))
-                print("STOP DECODE")
-                
+
+                try:
+                    self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * int(rd.randint(0,6)) - 5 + round(pow(2,4))
+                    print("START ENCODE")
+                    print(self.data_encode_h)
+                    print("STOP ENCODE")
+                    print("START DECODE")
+                    print(chr(self.data_encode_h))
+                    print("STOP DECODE")
+                except tk.TclError:
+                    pass
+                finally:
+                    self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * int(rd.randint(0,6)) - 5 + round(pow(2,4))
+                    print("START ENCODE")
+                    print(self.data_encode_h)
+                    print("STOP ENCODE")
+                    print("START DECODE")
+                    print(chr(self.data_encode_h))
+                    print("STOP DECODE")
 
         with open("data_list.txt","r+") as file:
             self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.data_encode_h}\n"
