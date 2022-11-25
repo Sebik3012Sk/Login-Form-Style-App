@@ -7,7 +7,6 @@ import platform as platfm
 import random as rd
 import math as mth
 import tkinter as tk
-import socket
 
 
 customtkpro.set_appearance_mode("dark")
@@ -50,8 +49,20 @@ class Main(CTk):
 
     def update(self):
         self.aboutComputerData()
+        self.get_data()
+        self.keys_listeners()
 
 	 
+    def get_data(self):
+        self.data_user = "User joined to program"
+        print(self.data_user)
+
+    def enter_bind(self , event):
+        self.LogIn()
+
+    def keys_listeners(self):
+        self.bind("<Return>",self.enter_bind)
+
 
     def aboutComputerData(self):
 
@@ -172,7 +183,7 @@ class Main(CTk):
             for self.letter_item in self.item:
 
                 try:
-                    self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * int(rd.randint(0,6)) - 5 + round(pow(2,4))
+                    self.data_encode_h = ord(self.letter_item) + int(rd.randint(10,50)) // int(rd.randint(1,5)) * 5 + round(pow(2,4))
                     print("START ENCODE")
                     print(self.data_encode_h)
                     print("STOP ENCODE")
@@ -191,12 +202,20 @@ class Main(CTk):
                     print("STOP DECODE")
 
         with open("data_list.txt","r+") as file:
-            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.data_encode_h}\n"
+            self.r_data = f"Username : {self.entry_username_get} \nPassword : {self.entry_password_get}\n"
 
             self.list_data.append(self.r_data)
 
             for self.item in self.list_data:
+                self.list_data.clear()
                 file.write(self.item)
+                self.press_enter = "\n"
+                file.write(self.press_enter)
+
+                if len(self.press_enter) > 1:
+                    self.press_enter = ""
+                    
+                
 
 
         for self.item_username in self.list_username:
@@ -213,7 +232,11 @@ class Main(CTk):
                 else:
                     messagebox.showerror("Login Form","Your data is not valid")
                     break
-                    
-root = Main()
-root.update()
-root.mainloop()
+
+
+if __name__ == "__main__":                
+    root = Main()
+    root.update()
+    root.mainloop()
+else:
+    print("Your operation system it is not good !")
